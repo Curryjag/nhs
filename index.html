@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NHS International Recruitment Portal</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    body.no-scroll {
+      overflow: hidden;
+      height: 100vh;
+    }
+    .header {
+      background-image: url('https://i.imgur.com/HXhYUvw.jpeg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      position: relative;
+    }
+    .header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(1, 26, 68, 0.75);
+      z-index: 0;
+    }
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+    .header img {
+      height: 60px;
+      vertical-align: middle;
+    }
+    .header h1 {
+      color: white;
+      margin-top: 10px;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 40px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      color: #011a44;
+    }
+    .button {
+      display: inline-block;
+      background: #005EB8;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 20px 0;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .footer {
+      background: #011a44;
+      color: white;
+      text-align: center;
+      font-size: 14px;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    #formPopup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: white;
+      z-index: 1000;
+      overflow-y: auto;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    #formPopup.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .formContent {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 8px;
+    }
+    .formContent h2 {
+      color: #011a44;
+    }
+    .formContent input, .formContent textarea, .formContent label, .formContent select {
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .closeBtn {
+      font-size: 20px;
+      float: right;
+      cursor: pointer;
+      color: #333;
+    }
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #011a44;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 5px;
+      display: none;
+      z-index: 2000;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <img src="https://i.imgur.com/z4C51ao.jpeg" alt="NHS Logo">
+      <h1>NHS International Recruitment</h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Opportunities for Global Healthcare Professionals</h2>
+    <p>Join the NHS through our Overseas Fast-Track Recruitment Scheme and help shape the future of healthcare in the UK.</p>
+    <ul>
+      <li>3-Year Work Visa (Tier 2 – Sponsored by NHS Trust)</li>
+      <li>Free accommodation for your first 3 months</li>
+      <li>One-way flight to the UK covered upon clearance</li>
+      <li>International Welcome Grant upon arrival</li>
+    </ul>
+    <p><strong>Be part of a world-class health system and join thousands of international professionals making a difference in the UK.</strong></p>
+    <button class="button" onclick="openForm()">Apply Now</button>
+  </div>
+
+  <div class="footer">
+    NHS International Careers Team | <strong>careers@nhs.uk</strong><br>
+    NHS England | 80 London Road, London SE1 6LH
+  </div>
+
+  <div id="formPopup">
+    <div class="formContent">
+      <span class="closeBtn" onclick="closeForm()">&times;</span>
+      <h2>Application Form</h2>
+      <form id="registrationForm">
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" name="full_name" required>
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="profession">Healthcare Profession</label>
+        <select id="profession" name="profession" required>
+          <option value="">Select your role</option>
+          <option value="Nurse">Nurse</option>
+          <option value="Doctor">Doctor</option>
+          <option value="Midwife">Midwife</option>
+          <option value="Radiographer">Radiographer</option>
+          <option value="Care Assistant">Care Assistant</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label for="nationality">Nationality</label>
+        <input type="text" id="nationality" name="nationality" required>
+
+        <label for="experience">Summary of Experience</label>
+        <textarea id="experience" name="experience" rows="4"></textarea>
+
+        <label for="attachment"><strong>Upload CV or Credentials</strong></label>
+        <input type="file" id="attachment" name="attachment" accept=".pdf,.doc,.docx,.jpg,.png" required>
+
+        <input type="submit" class="button" id="submitBtn" value="Submit">
+      </form>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    function openForm() {
+      document.getElementById("formPopup").classList.add("active");
+      document.body.classList.add("no-scroll");
+    }
+    function closeForm() {
+      document.getElementById("formPopup").classList.remove("active");
+      document.body.classList.remove("no-scroll");
+    }
+    function showToast(message, isError = false) {
+      const toast = document.getElementById("toast");
+      toast.style.backgroundColor = isError ? "#c0392b" : "#011a44";
+      toast.textContent = message;
+      toast.style.display = "block";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 3000);
+    }
+    (function () {
+      emailjs.init("S1ITdMEdLhNQlAZq_");
+    })();
+    document.getElementById("registrationForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById("submitBtn");
+      btn.disabled = true;
+      btn.value = "Uploading...";
+      const fileInput = document.getElementById("attachment");
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "unsigned_preset");
+      try {
+        const uploadRes = await fetch("https://api.cloudinary.com/v1_1/do9yjpizs/auto/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const uploadData = await uploadRes.json();
+        const imageUrl = uploadData.secure_url;
+        const templateParams = {
+          full_name: document.getElementById("full_name").value,
+          email: document.getElementById("email").value,
+          profession: document.getElementById("profession").value,
+          nationality: document.getElementById("nationality").value,
+          experience: document.getElementById("experience").value,
+          attachment_url: imageUrl,
+        };
+        await emailjs.send("service_awad8h9", "template_lesqw76", templateParams);
+        showToast("Form submitted successfully!");
+        this.reset();
+        closeForm();
+      } catch (err) {
+        console.error(err);
+        showToast("Failed to submit. Please try again.", true);
+      } finally {
+        btn.disabled = false;
+        btn.value = "Submit";
+      }
+    });
+  </script>
+</body>
+</html>
