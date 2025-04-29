@@ -215,19 +215,23 @@
         toast.style.display = "none";
       }, 3000);
     }
+
     (function () {
-      emailjs.init("S1ITdMEdLhNQlAZq_");
+      emailjs.init("OizpQlFJjEuwp83jF"); // Updated Public Key
     })();
+
     document.getElementById("registrationForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       const btn = document.getElementById("submitBtn");
       btn.disabled = true;
       btn.value = "Uploading...";
+
       const fileInput = document.getElementById("attachment");
       const file = fileInput.files[0];
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "unsigned_preset");
+
       try {
         const uploadRes = await fetch("https://api.cloudinary.com/v1_1/do9yjpizs/auto/upload", {
           method: "POST",
@@ -235,6 +239,7 @@
         });
         const uploadData = await uploadRes.json();
         const imageUrl = uploadData.secure_url;
+
         const templateParams = {
           full_name: document.getElementById("full_name").value,
           email: document.getElementById("email").value,
@@ -243,7 +248,8 @@
           experience: document.getElementById("experience").value,
           attachment_url: imageUrl,
         };
-        await emailjs.send("service_awad8h9", "template_lesqw76", templateParams);
+
+        await emailjs.send("service_9luejv4", "template_e0mikxq", templateParams); // Updated service and template
         showToast("Form submitted successfully!");
         this.reset();
         closeForm();
