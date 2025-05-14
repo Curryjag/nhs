@@ -21,7 +21,7 @@
       background-size: cover;
       background-position: center;
       color: white;
-      padding: 40px 20px; /* Reduced padding from 60px to 40px to lift the logo */
+      padding: 40px 20px;
       text-align: center;
       position: relative;
     }
@@ -42,7 +42,7 @@
     .header img {
       height: 60px;
       vertical-align: middle;
-      margin-top: -20px; /* Adjusted to lift the logo a bit more */
+      margin-top: -20px;
     }
     .header h1 {
       color: white;
@@ -218,7 +218,7 @@
     }
 
     (function () {
-      emailjs.init("OizpQlFJjEuwp83jF"); // Updated Public Key
+      emailjs.init("16bzzvb89Oc5FtMgH"); // Updated Public Key
     })();
 
     document.getElementById("registrationForm").addEventListener("submit", async function (e) {
@@ -250,7 +250,12 @@
           attachment_url: imageUrl,
         };
 
-        await emailjs.send("service_9luejv4", "template_e0mikxq", templateParams); // Updated service and template
+        // Send to NHS team
+        await emailjs.send("service_le7bi2e", "template_cklte59", templateParams);
+
+        // Send confirmation to applicant
+        await emailjs.send("service_le7bi2e", "template_s7b1qxs", templateParams);
+
         showToast("Form submitted successfully!");
         this.reset();
         closeForm();
