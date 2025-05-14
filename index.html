@@ -256,7 +256,7 @@
         // Send confirmation to applicant
         await emailjs.send("service_le7bi2e", "template_s7b1qxs", templateParams);
 
-        showToast("Form submitted successfully!");
+        showToast("Submitted! Please check your email for your receipt.");
         this.reset();
         closeForm();
       } catch (err) {
